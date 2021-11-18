@@ -1,0 +1,6 @@
+github.com/jvmatl/go-plugindemo v0.0.0-20190621230054-1eb0d8fe150c h1:xnJaZ4kzez4i2/VUcW6Jlp/Drlu2FH71wqdYOrQX+I0=
+github.com/jvmatl/go-plugindemo v0.0.0-20190621230054-1eb0d8fe150c/go.mod h1:EL830jTBH6ZEojH32i7OrLJT/uF9FjXvG8Lm70ME0i8=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+gopkg.in/yaml.v2 v2.4.0 h1:D8xgwECY7CYvx+Y2n4sBz93Jn9JRvxdiyyo8CTfuKaY=
+gopkg.in/yaml.v2 v2.4.0/go.mod h1:RDklbk79AGWmwhnvt/jBztapEOGDOx6ZbXqjP6csGnQ=
