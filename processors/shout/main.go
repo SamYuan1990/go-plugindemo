@@ -4,6 +4,7 @@ package main
 // This package is a plugin. Build it with `go build -buildmode=plugin -o shout.so`
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"strings"
@@ -13,8 +14,8 @@ import (
 
 // ShoutProcessor will capitalize any byte slices passed in
 type ShoutProcessor struct {
-	configured    bool
-	logEverything bool
+	Configured    bool `yaml:"Configured"`
+	LogEverything bool `yaml:"LogEverything"`
 }
 
 // NewProcessor is more strongly typed, and a better way to go if you expect to have many plugins
@@ -30,21 +31,23 @@ func GenericNew() interface{} {
 // Init accepts configuration information for your processor object
 func (p *ShoutProcessor) Init(config map[string]interface{}) error {
 	var ok bool
-	if p.logEverything, ok = config["log_everything"].(bool); !ok {
+	if p.LogEverything, ok = config["Log_everything"].(bool); !ok {
 		return errors.New("invalid config")
 	}
 
-	p.configured = true
+	p.Configured = true
+	data, _ := json.Marshal(p)
+	fmt.Println(string(data))
 	return nil
 }
 
 // Process will take in a []byte and do something cool with it. :)
 func (p *ShoutProcessor) Process(buf []byte) []byte {
-	if p == nil || !p.configured {
+	if p == nil || !p.Configured {
 		panic(fmt.Sprintf("Unconfigured %T!", p))
 	}
 
-	if p.logEverything {
+	if p.LogEverything {
 		fmt.Printf("  Shouter got data: %v\n", buf)
 	}
 

@@ -5,8 +5,10 @@ import (
 	"log"
 	"path/filepath"
 	"plugin"
+	"reflect"
 
 	"github.com/jvmatl/go-plugindemo/processors"
+	"gopkg.in/yaml.v2"
 )
 
 // simple demo app to show a couple of ways structure an app that can load
@@ -46,7 +48,9 @@ func easyWay() {
 	shoutProc := newProc().(processors.Processor) // call the constructor, get a new ShoutProcessor
 
 	// Initialize my new Processor
-	shoutProc.Init(map[string]interface{}{"log_everything": true})
+	shoutProc.Init(map[string]interface{}{"Log_everything": true})
+	data, err := yaml.Marshal(&shoutProc)
+	fmt.Println(string(data))
 
 	// Process some bytes!
 	message := "whisper"
@@ -78,11 +82,30 @@ func betterWay() {
 	shoutProc := newProc() // call the constructor, get a new ShoutProcessor
 
 	// Initialize my new Processor
-	shoutProc.Init(map[string]interface{}{"log_everything": true})
+	shoutProc.Init(map[string]interface{}{"Log_everything": true})
 
-	// Process some bytes!
+	data, err := yaml.Marshal(&shoutProc)
+	fmt.Println(string(data))
+
+	shoutProc2 := newProc() // call the constructor, get a new ShoutProcessor
+	// proof for struct init from raw
+	err = yaml.Unmarshal(data, shoutProc2)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("cool")
+	// proof for get type from plugin
+	fmt.Println(reflect.TypeOf(shoutProc2))
+	// proof for use reflect with plugin
+	test_map := make(map[reflect.Type]string)
+	test_map[reflect.TypeOf(shoutProc2)] = "abc"
+	str, ok := test_map[reflect.TypeOf(shoutProc)]
+	if ok {
+		fmt.Println(str)
+	}
+	// proof for method execute
 	message := "whisper"
 	fmt.Printf("  Before processing: %s\n", message)
-	output := shoutProc.Process([]byte(message))
+	output := shoutProc2.Process([]byte(message))
 	fmt.Printf("  After processing: %s\n", output)
 }
